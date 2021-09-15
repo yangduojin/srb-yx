@@ -4,6 +4,8 @@ package com.atguigu;
 import com.atguigu.entity.User;
 import com.atguigu.mapper.UserMapper;
 import com.atguigu.service.UserService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +31,22 @@ public class myTest {
 
     @Test
     public void testMapper(){
-        List<User> y = userMapper.selectAllByName("y");
-        for (User user : y) {
-            System.out.println(user);
-        }
+
+//        List<User> y = userMapper.selectAllByName("y");
+//        for (User user : y) {
+//            System.out.println(user);
+//        }
+
+        //page
+//        IPage<User> iPage = new Page<>(3,3);
+//        userMapper.selectPage(iPage,null);
+//        System.out.println(iPage);
+
+        // myPage
+        Page<User> iPage = new Page<>(3,3);
+        List<User> userIPage = userMapper.selectPageByPage(iPage, 10);
+        userIPage.forEach(System.out::println);
+
     }
 
     @Test
@@ -44,5 +58,10 @@ public class myTest {
         User user = new User();
         user.setName("yoohooo");
         userService.save(user);
+    }
+    
+    @Test
+    public void testLogic(){
+        userMapper.deleteById(8l);
     }
 }
