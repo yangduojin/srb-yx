@@ -20,7 +20,7 @@ public class User implements Serializable {
     private Integer age;
     private String email;
 
-    @TableLogic
+    @TableLogic(value = "0",delval = "2")
     @TableField("del_flag")
     private Integer delFlag;
 

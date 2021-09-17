@@ -40,12 +40,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-        <!--mybatis-plus 代码生成器-->
+        <!--mybatis-plus AutoGenerator-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
         </dependency>
-        <!-- Mybatis Plus 代码生成器模板引擎,  -->
+        <!-- Mybatis Plus AutoGenerator,  -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>

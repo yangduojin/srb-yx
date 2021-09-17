@@ -68,13 +68,13 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            <!--mybatis-plus 代码生成器-->
+            <!--mybatis-plus AutoGenerator-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            <!-- Mybatis Plus 代码生成器模板引擎,  -->
+            <!-- Mybatis Plus AutoGenerator   -->
             <dependency>
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
@@ -107,7 +107,7 @@
                 <version>${commons-lang3.version}</version>
             </dependency>
 
-            <!--文件上传-->
+            <!--file upload-->
             <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
@@ -121,13 +121,13 @@
                 <version>${commons-io.version}</version>
             </dependency>
 
-            <!--excel解析-->
+            <!--excel-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${alibaba.easyexcel.version}</version>
             </dependency>
-            <!--excel解析依赖-->
+            <!--excel poi-->
             <dependency>
                 <groupId>org.apache.xmlbeans</groupId>
                 <artifactId>xmlbeans</artifactId>
@@ -151,28 +151,28 @@
                 <version>${gson.version}</version>
             </dependency>
 
-            <!--阿里云SDK远程调用-->
+            <!--aliyun sdk remote-->
             <dependency>
                 <groupId>com.aliyun</groupId>
                 <artifactId>aliyun-java-sdk-core</artifactId>
                 <version>${aliyun-java-sdk-core.version}</version>
             </dependency>
 
-            <!--阿里云文件管理-->
+            <!--aliyun-->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-sdk-oss.version}</version>
             </dependency>
 
-            <!--日期时间工具-->
+            <!--date-->
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${jodatime.version}</version>
             </dependency>
 
-            <!--jwt工具-->
+            <!--jwt-->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>

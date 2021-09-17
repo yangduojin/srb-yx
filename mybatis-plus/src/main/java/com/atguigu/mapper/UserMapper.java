@@ -13,5 +13,5 @@ public interface UserMapper extends BaseMapper<User> {
 
     List<User> selectAllByName(String name);
 
-    List<User> selectPageByPage(Page<?> ipage, @Param("age") Integer age);
+    IPage<User> selectPageByPage(IPage<?> ipage, @Param("age") Integer age);
 }
