@@ -11,6 +11,7 @@
         <module>guigu-common</module>
         <module>service-base</module>
         <module>mybatis-plus</module>
+        <module>service-core</module>
     </modules>
     <packaging>pom</packaging>
 
