@@ -21,4 +21,5 @@ public class MyCoreConfig {
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         return interceptor;
     }
+
 }

@@ -12,6 +12,7 @@
         <module>service-base</module>
         <module>mybatis-plus</module>
         <module>service-core</module>
+        <module>alibaba-easyexcel</module>
     </modules>
     <packaging>pom</packaging>
 

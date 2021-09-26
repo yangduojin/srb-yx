@@ -1,6 +1,8 @@
 package com.atguigu.srb.core;
 
 
+import com.atguigu.srb.core.mapper.DictMapper;
+import com.atguigu.srb.core.pojo.entity.Dict;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -11,12 +13,22 @@ import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CoreTest {
+
+    @Autowired
+    private RedisTemplate  redisTemplate;
+
+    @Autowired
+    private DictMapper dictMapper;
     
     @Test
     public void testAutoGenerator(){
@@ -104,6 +116,17 @@ public class CoreTest {
 
         mpg.execute();
 
+    }
+
+    @Test
+    public void testRedis(){
+        Dict dict = dictMapper.selectById(1);
+        redisTemplate.opsForValue().set("k1","yx",5, TimeUnit.MINUTES);
+    }
+
+    @Test
+    public void testFast(){
+        System.out.println("111");
     }
 
 }
