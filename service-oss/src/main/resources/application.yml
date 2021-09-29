@@ -1,0 +1,15 @@
+server:
+  port: 8130
+spring:
+  profiles:
+    active: dev
+  application:
+    name: server-oss
+
+
+aliyun:
+  oss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com
+    keyId: LTAI5tGJkLeEu3AoAmHJDGV6
+    keySecret: Wi6guAXySacBYDe60PmBQz6C2F1Ck3
+    bucketName: yangxoss

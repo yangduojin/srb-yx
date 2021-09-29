@@ -9,11 +9,15 @@ import com.atguigu.srb.core.service.DictService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -27,7 +31,8 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
-
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 //    @Transactional(rollbackFor = {Exception.class})
     @Override
@@ -49,6 +54,20 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     @Override
     public List<Dict> listByParentId(Long parentId) {
+        List<Dict> dicts = null;
+        try {
+            dicts = (List<Dict>)redisTemplate.opsForValue().get("srb:core:dictList:" + parentId);
+        } catch (Exception e) {
+            log.error("redis服务器异常：" + ExceptionUtils.getStackTrace(e));//此处不抛出异常，继续执行后面的代码
+        }
+        if(dicts == null || dicts.size() <= 0){
+            dicts = getDicts(parentId);
+            redisTemplate.opsForValue().set("srb:core:dictList:"+parentId,dicts,5, TimeUnit.MINUTES);
+        }
+        return dicts;
+    }
+
+    private List<Dict> getDicts(Long parentId) {
         QueryWrapper<Dict> queryByParentId = new QueryWrapper<Dict>().eq("parent_id", parentId);
         List<Dict> dicts = baseMapper.selectList(queryByParentId);
         dicts.forEach(dict -> {

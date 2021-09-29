@@ -121,12 +121,13 @@ public class CoreTest {
     @Test
     public void testRedis(){
         Dict dict = dictMapper.selectById(1);
-        redisTemplate.opsForValue().set("k1","yx",5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("dict",dict,5, TimeUnit.MINUTES);
     }
 
     @Test
-    public void testFast(){
-        System.out.println("111");
+    public void testGetDict(){
+        Dict dict = (Dict) redisTemplate.opsForValue().get("dict");
+        System.out.println(dict);
     }
 
 }

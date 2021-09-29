@@ -13,6 +13,9 @@
         <module>mybatis-plus</module>
         <module>service-core</module>
         <module>alibaba-easyexcel</module>
+        <module>service-sms</module>
+        <module>service-oss</module>
+        <module>JWT</module>
     </modules>
     <packaging>pom</packaging>
 
