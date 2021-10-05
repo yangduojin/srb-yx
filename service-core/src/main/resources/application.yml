@@ -23,6 +23,10 @@ spring:
         max-wait: -1
         max-idle: 8
         min-idle: 0
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
 mybatis-plus:
   mapper-locations: classpath:com/atguigu/srb/core/mapper/xml/*.xml
   configuration:

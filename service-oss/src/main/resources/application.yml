@@ -5,7 +5,10 @@ spring:
     active: dev
   application:
     name: server-oss
-
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
 
 aliyun:
   oss:

@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/api/oss/file")
 @Api(tags = "文件上传总接口")
 public class ApiOssController {

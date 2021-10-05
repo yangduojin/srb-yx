@@ -77,6 +77,7 @@ public class UserInfo implements Serializable {
     @ApiModelProperty(value = "状态（0：锁定 1：正常）")
     private Integer status;
 
+   // @JsonFormat(pattern = "yyyy-MM-dd") 个性化定制，不然就走config的通用模式
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 

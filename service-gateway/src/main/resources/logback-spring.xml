@@ -4,7 +4,7 @@
     <contextName>atguiguSrb</contextName>
 
     <!-- 日志的输出目录 -->
-    <property name="log.path" value="D:/WorkSpace/test/srb_log/core" />
+    <property name="log.path" value="D:/WorkSpace/test/srb_log/service-gateway" />
 
     <!--控制台日志格式：彩色日志-->
     <!-- magenta:洋红 -->
@@ -22,6 +22,7 @@
     <!--编码-->
     <property name="ENCODING"
               value="UTF-8" />
+
 
     <!-- 控制台日志 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -65,16 +66,17 @@
 
     </appender>
 
-
-    <!--    <logger name="com.atguigu" level="INFO">-->
-    <!--        <appender-ref ref="CONSOLE" />-->
-    <!--        <appender-ref ref="FILE" />-->
-    <!--    </logger>-->
+    <!-- 日志记录器  -->
+<!--    <logger name="com.atguigu" level="INFO">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="FILE" />-->
+<!--    </logger>-->
 
     <!-- 开发环境和测试环境 -->
     <springProfile name="dev,test">
-        <logger name="com.atguigu" level="debug">
+        <logger name="com.atguigu" level="INFO">
             <appender-ref ref="CONSOLE" />
+            <appender-ref ref="ROLLING_FILE" />
         </logger>
     </springProfile>
 
@@ -82,7 +84,7 @@
     <springProfile name="prod">
         <logger name="com.atguigu" level="ERROR">
             <appender-ref ref="CONSOLE" />
-            <appender-ref ref="ROLLING_FILE" />
+            <appender-ref ref="FILE" />
         </logger>
     </springProfile>
 </configuration>

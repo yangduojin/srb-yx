@@ -1,10 +1,22 @@
 package com.atguigu.srb.core.service.impl;
 
-import com.atguigu.srb.core.pojo.entity.UserBind;
+import com.atguigu.srb.base.hfb.FormHelper;
+import com.atguigu.srb.base.hfb.HfbConst;
+import com.atguigu.srb.base.hfb.RequestHelper;
+import com.atguigu.srb.common.exception.Assert;
+import com.atguigu.srb.common.result.ResponseEnum;
+import com.atguigu.srb.core.enums.UserBindEnum;
 import com.atguigu.srb.core.mapper.UserBindMapper;
+import com.atguigu.srb.core.pojo.entity.UserBind;
+import com.atguigu.srb.core.pojo.entity.vo.UserBindVO;
 import com.atguigu.srb.core.service.UserBindService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -17,4 +29,49 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> implements UserBindService {
 
+    @Override
+    public String commitBindUser(Long userId, UserBindVO userBindVO) {
+
+        QueryWrapper<UserBind> queryWrapper = new QueryWrapper<>();
+        queryWrapper
+                .eq("id_card",userBindVO.getIdCard())
+                .ne("user_id",userId);
+        UserBind userBind = baseMapper.selectOne(queryWrapper);
+        Assert.isNull(userBind, ResponseEnum.USER_BIND_IDCARD_EXIST_ERROR);
+
+
+        queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",userId);
+        userBind = baseMapper.selectOne(queryWrapper);
+
+
+        if(userBind == null){
+            userBind = new UserBind();
+            BeanUtils.copyProperties(userBindVO,userBind);
+            userBind.setUserId(userId);
+            userBind.setStatus(UserBindEnum.NO_BIND.getStatus());
+            baseMapper.insert(userBind);
+        } else {
+            BeanUtils.copyProperties(userBindVO,userBind);
+            baseMapper.updateById(userBind);
+        }
+
+
+        Map<String, Object> userBindMap = new HashMap<>();
+        userBindMap.put("agentId",HfbConst.AGENT_ID);
+        userBindMap.put("agentUserId",userId);
+        userBindMap.put("idCard",userBindVO.getIdCard());
+        userBindMap.put("personalName", userBindVO.getName());
+        userBindMap.put("bankType", userBindVO.getBankType());
+        userBindMap.put("bankNo", userBindVO.getBankNo());
+        userBindMap.put("mobile", userBindVO.getMobile());
+        userBindMap.put("returnUrl", HfbConst.USERBIND_RETURN_URL);
+        userBindMap.put("notifyUrl",HfbConst.USERBIND_NOTIFY_URL);
+        userBindMap.put("timestamp", RequestHelper.getTimestamp());
+        userBindMap.put("sign", RequestHelper.getSign(userBindMap));
+
+        String formStr = FormHelper.buildForm(HfbConst.USERBIND_URL, userBindMap);
+
+        return formStr;
+    }
 }

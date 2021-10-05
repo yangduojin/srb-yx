@@ -1,4 +1,4 @@
-package com.atguigu.srb.core.pojo.entity;
+package com.atguigu.srb.core.pojo.entity.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="UserInfo对象", description="用户基本信息")
-public class UserInfoVO implements Serializable {
+public class UserRegisterInfoVO implements Serializable {
 
     @ApiModelProperty(value = "用户类型")
     private Integer userType;

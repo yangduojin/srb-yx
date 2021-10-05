@@ -16,6 +16,7 @@
         <module>service-sms</module>
         <module>service-oss</module>
         <module>JWT</module>
+        <module>service-gateway</module>
     </modules>
     <packaging>pom</packaging>
 

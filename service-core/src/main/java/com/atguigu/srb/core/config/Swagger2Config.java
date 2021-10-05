@@ -25,6 +25,7 @@ public class Swagger2Config {
                 .build();
     }
 
+    @Bean
     public Docket ApiConfig(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("Api")

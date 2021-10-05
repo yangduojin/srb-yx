@@ -23,6 +23,10 @@ spring:
         max-wait: -1
         max-idle: 8
         min-idle: 0
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
 #mybatis-plus:
 #  mapper-locations: classpath:com/atguigu/srb/core/mapper/xml/*.xml
 #  configuration:
@@ -38,3 +42,14 @@ aliyun:
     key-secret: s0wh0QRH5izJQ79PPeyAEGgAK7Xmzp
     template-code: SMS_217425770
     sign-name: 北京课时教育
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000 #连接超时配置
+        readTimeout: 600000 #执行超时配置
+  sentinel:
+    enabled: true
+logging:
+  level:
+    com.atguigu.srb.sms.client.CoreUserInfoClient: DEBUG #以什么级别监控哪个接口

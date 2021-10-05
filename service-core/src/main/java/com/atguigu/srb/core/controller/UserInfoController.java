@@ -25,7 +25,7 @@ public class UserInfoController {
 //    @PostMapping("/register")
 //    public R UserRegister(
 //            @ApiParam(value = "用户信息表单",required = true)
-//            @RequestBody UserInfoVO userInfoVO
+//            @RequestBody UserRegisterInfoVO userInfoVO
 //            ){
 //        Assert.notEmpty(userInfoVO.getMobile(), ResponseEnum.MOBILE_NULL_ERROR);
 //        Assert.isTrue(RegexValidateUtils.checkCellphone(userInfoVO.getMobile()),ResponseEnum.MOBILE_ERROR);
@@ -35,4 +35,3 @@ public class UserInfoController {
 //        return R.ok().message("注册成功");
 //    }
 }
-

@@ -1,15 +1,8 @@
 package com.atguigu.srb.core.controller;
 
 
-import com.atguigu.srb.core.pojo.entity.IntegralGrade;
-import com.atguigu.srb.core.service.IntegralGradeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * <p>
@@ -20,15 +13,7 @@ import java.util.List;
  * @since 2021-09-22
  */
 @RestController
-@RequestMapping("/api/integralGrade")
+@RequestMapping()
 public class IntegralGradeController {
-
-    @Autowired
-    IntegralGradeService integralGradeService;
-
-    @GetMapping("/list")
-    public List<IntegralGrade> list(){
-        return integralGradeService.list();
-    }
 }
 
