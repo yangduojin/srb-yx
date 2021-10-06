@@ -7,14 +7,18 @@ import com.atguigu.srb.common.exception.Assert;
 import com.atguigu.srb.common.result.ResponseEnum;
 import com.atguigu.srb.core.enums.UserBindEnum;
 import com.atguigu.srb.core.mapper.UserBindMapper;
+import com.atguigu.srb.core.mapper.UserInfoMapper;
 import com.atguigu.srb.core.pojo.entity.UserBind;
+import com.atguigu.srb.core.pojo.entity.UserInfo;
 import com.atguigu.srb.core.pojo.entity.vo.UserBindVO;
 import com.atguigu.srb.core.service.UserBindService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +32,9 @@ import java.util.Map;
  */
 @Service
 public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> implements UserBindService {
+
+    @Resource
+    private UserInfoMapper userInfoMapper;
 
     @Override
     public String commitBindUser(Long userId, UserBindVO userBindVO) {
@@ -73,5 +80,26 @@ public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> i
         String formStr = FormHelper.buildForm(HfbConst.USERBIND_URL, userBindMap);
 
         return formStr;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void notify(Map<String, Object> paramMap) {
+        String bindCode = (String) paramMap.get("bindCode");
+        String agentUserId = (String) paramMap.get("agentUserId");
+        QueryWrapper<UserBind> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",agentUserId);
+        UserBind userBind = baseMapper.selectOne(queryWrapper);
+        userBind.setBindCode(bindCode);
+        userBind.setStatus(UserBindEnum.BIND_OK.getStatus());
+        baseMapper.updateById(userBind);
+
+        UserInfo userInfo = userInfoMapper.selectById(agentUserId);
+        userInfo.setIdCard(userBind.getIdCard());
+        userInfo.setName(userBind.getName());
+        userInfo.setBindStatus(UserBindEnum.BIND_OK.getStatus());
+        userInfo.setBindCode(bindCode);
+        userInfoMapper.updateById(userInfo);
+
     }
 }

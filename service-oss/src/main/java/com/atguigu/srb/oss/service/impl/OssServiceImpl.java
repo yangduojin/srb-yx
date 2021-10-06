@@ -34,7 +34,7 @@ public class OssServiceImpl implements OssService {
 
         String date = new DateTime().toString("yyyy-MM-dd");
 
-        UUID uuid = UUID.randomUUID();
+        String uuid = UUID.randomUUID().toString();
         String filenameExtension = StringUtils.getFilenameExtension(originalFilename);
         String filename = uuid + "." + filenameExtension;
 

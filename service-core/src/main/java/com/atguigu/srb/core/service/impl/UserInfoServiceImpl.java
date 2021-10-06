@@ -120,6 +120,12 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Override
     public Page<UserInfo> listPage(Page<UserInfo> pageModel, UserInfoQuery userInfoQuery) {
+
+        if(userInfoQuery == null){
+            Page<UserInfo> userInfoPage = baseMapper.selectPage(pageModel, null);
+            return userInfoPage;
+        }
+
         String mobile = userInfoQuery.getMobile();
         Integer status = userInfoQuery.getStatus();
         Integer userType = userInfoQuery.getUserType();

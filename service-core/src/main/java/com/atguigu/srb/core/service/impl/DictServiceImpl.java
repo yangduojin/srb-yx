@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.util.List;
@@ -31,10 +32,13 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
+
     @Autowired
     private RedisTemplate redisTemplate;
 
-//    @Transactional(rollbackFor = {Exception.class})
+
+
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public void importData(InputStream inputStream) {
         EasyExcel.read(inputStream, ExcelDictDTO.class, new ExcelDictDTOListener(baseMapper)).sheet().doRead();
@@ -65,6 +69,36 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
             redisTemplate.opsForValue().set("srb:core:dictList:"+parentId,dicts,5, TimeUnit.MINUTES);
         }
         return dicts;
+    }
+
+    @Override
+    public List<Dict> findByDictCode(String dictCode) {
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dict_code",dictCode);
+        Dict dict = baseMapper.selectOne(queryWrapper);
+        return this.listByParentId(dict.getId());
+    }
+
+    @Override
+    public String getNameByParentDictCodeAndValue(String industryCode, Integer value) {
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dict_code",industryCode);
+        Dict parentDict = baseMapper.selectOne(queryWrapper);
+
+        if(parentDict == null){
+            return "";
+        }
+
+        queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("parent_id",parentDict.getId())
+                .eq("value",value);
+        Dict dict = baseMapper.selectOne(queryWrapper);
+
+        if(dict == null){
+            return "";
+        }
+
+        return dict.getName();
     }
 
     private List<Dict> getDicts(Long parentId) {

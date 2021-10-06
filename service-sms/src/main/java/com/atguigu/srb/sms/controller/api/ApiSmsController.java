@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 
 @RestController
@@ -28,7 +29,7 @@ public class ApiSmsController {
     @Autowired
     private SmsService smsService;
 
-    @Autowired
+    @Resource
     private CoreUserInfoClient coreUserInfoClient ;
 
     @ApiOperation("根据手机号获取验证码")

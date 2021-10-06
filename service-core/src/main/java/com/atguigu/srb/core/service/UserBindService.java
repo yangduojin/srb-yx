@@ -4,6 +4,8 @@ import com.atguigu.srb.core.pojo.entity.UserBind;
 import com.atguigu.srb.core.pojo.entity.vo.UserBindVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Map;
+
 /**
  * <p>
  * 用户绑定表 服务类
@@ -15,4 +17,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface UserBindService extends IService<UserBind> {
 
     String commitBindUser(Long userId, UserBindVO userBindVO);
+
+    void notify(Map<String, Object> paramMap);
 }

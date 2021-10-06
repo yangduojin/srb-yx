@@ -29,20 +29,20 @@ public class ApiOssController {
             @ApiParam(value = "上传文件",required = true)
             @RequestParam("file") MultipartFile file,
             @ApiParam(value = "模块名称",required = true)
-            @RequestParam("moduleName") String moduleName){
+            @RequestParam("module") String module){
         InputStream inputStream = file.getInputStream();
         String OriginalFilename = file.getOriginalFilename();
-        String uploadPath = ossService.upload(OriginalFilename, moduleName, inputStream);
-        return R.ok().message("文件上传成功").data("uploadPath",uploadPath);
+        String url = ossService.upload(OriginalFilename, module, inputStream);
+        return R.ok().message("文件上传成功").data("url",url);
     }
 
     @ApiOperation("删除文件")
     @DeleteMapping("/del")
     public R deleteFile(
             @ApiParam(value = "文件名",required = true)
-            @RequestParam(value = "fileName",required = true) String fileName){
+            @RequestParam(value = "url",required = true) String url){
         try {
-            ossService.delFile(fileName);
+            ossService.delFile(url);
         } catch (Exception e) {
             e.printStackTrace();
             return R.error().message("文件删除失败");

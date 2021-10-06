@@ -1,6 +1,7 @@
 package com.atguigu.srb.core.controller.api;
 
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.srb.base.hfb.RequestHelper;
 import com.atguigu.srb.base.util.JwtUtils;
 import com.atguigu.srb.common.exception.Assert;
@@ -52,8 +53,12 @@ public class ApiUserBindController {
     @PostMapping("/notify")
     public String notify(HttpServletRequest request){
         Map<String, Object> paramMap = RequestHelper.switchMap(request.getParameterMap());
-        log.info("账户绑定异步回调接受的参数如下 :  " + paramMap);
-
+        if (!RequestHelper.isSignEquals(paramMap)) {
+            log.error("用户账号绑定异步回调签名验证错误： " + JSON.toJSONString(paramMap));
+            return "fail";
+        }
+        log.info("验签成功，开始账户绑定");
+        userBindService.notify(paramMap);
         return  "success";
     }
 }

@@ -4,7 +4,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: server-oss
+    name: service-oss
   cloud:
     nacos:
       discovery:
