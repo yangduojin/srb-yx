@@ -27,6 +27,10 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+      enabled: true
 mybatis-plus:
   mapper-locations: classpath:com/atguigu/srb/core/mapper/xml/*.xml
   configuration:

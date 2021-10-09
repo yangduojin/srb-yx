@@ -8,16 +8,20 @@ import com.atguigu.srb.common.util.RandomUtils;
 import com.atguigu.srb.common.util.RegexValidateUtils;
 import com.atguigu.srb.sms.client.CoreUserInfoClient;
 import com.atguigu.srb.sms.servcie.SmsService;
-import com.atguigu.srb.sms.util.SmsProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/sms")
@@ -28,6 +32,9 @@ public class ApiSmsController {
 
     @Autowired
     private SmsService smsService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Resource
     private CoreUserInfoClient coreUserInfoClient ;
@@ -46,7 +53,17 @@ public class ApiSmsController {
         String code = RandomUtils.getFourBitRandom();
         HashMap<String, Object> param = new HashMap<>();
         param.put("code",code);
-        smsService.send(mobile, SmsProperties.TEMPLATE_CODE,param);
+//        smsService.send(mobile, SmsProperties.TEMPLATE_CODE,param);
+        redisTemplate.opsForValue().set("srb:sms:code:" + mobile , code,60*24, TimeUnit.MINUTES);
+        log.info("srb:sms:code:" + mobile + "的验证码是： " + code );
         return R.ok().message("短信发送成功");
+    }
+
+    @ApiOperation("测试sentiel")
+    @GetMapping("/test")
+    public R test(){
+        String mobile = "1233333";
+        Boolean exist = coreUserInfoClient.checkMobile(mobile);
+        return R.ok();
     }
 }

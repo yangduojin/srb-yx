@@ -23,7 +23,7 @@ public interface BorrowerService extends IService<Borrower> {
 
     Page<Borrower> borrowerList(Page<Borrower> pageModel, String keyword);
 
-    BorrowerDetailVO getBorrowerDetailInfo(Integer id);
+    BorrowerDetailVO getBorrowerDetailVOById(Long id);
 
     void approval(BorrowerApprovalVO borrowerApprovalVO);
 }

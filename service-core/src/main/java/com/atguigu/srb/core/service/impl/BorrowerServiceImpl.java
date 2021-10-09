@@ -108,7 +108,7 @@ public class BorrowerServiceImpl extends ServiceImpl<BorrowerMapper, Borrower> i
     }
 
     @Override
-    public BorrowerDetailVO getBorrowerDetailInfo(Integer id) {
+    public BorrowerDetailVO getBorrowerDetailVOById(Long id) {
         BorrowerDetailVO borrowerDetailVO = new BorrowerDetailVO();
         Borrower borrower = baseMapper.selectById(id);
         BeanUtils.copyProperties(borrower,borrowerDetailVO);

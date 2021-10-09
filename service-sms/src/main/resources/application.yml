@@ -27,14 +27,9 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
-#mybatis-plus:
-#  mapper-locations: classpath:com/atguigu/srb/core/mapper/xml/*.xml
-#  configuration:
-#    map-underscore-to-camel-case: true
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-#logging:
-    ##  level:
-    ##    root: debug
+    sentinel:
+      transport:
+        dashboard: localhost:8080
 aliyun:
   sms:
     region-id: cn-shenzhen
@@ -50,6 +45,16 @@ feign:
         readTimeout: 600000 #执行超时配置
   sentinel:
     enabled: true
+    filter:
+      url-patterns: /**
 logging:
   level:
     com.atguigu.srb.sms.client.CoreUserInfoClient: DEBUG #以什么级别监控哪个接口
+#mybatis-plus:
+#  mapper-locations: classpath:com/atguigu/srb/core/mapper/xml/*.xml
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#logging:
+##  level:
+##    root: debug

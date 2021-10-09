@@ -16,4 +16,5 @@ import java.util.List;
 public interface BorrowInfoMapper extends BaseMapper<BorrowInfo> {
 
     List<BorrowInfo> selectBorrowInfoList();
+
 }

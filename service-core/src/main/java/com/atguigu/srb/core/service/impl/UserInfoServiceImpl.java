@@ -19,11 +19,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -36,16 +37,16 @@ import org.springframework.util.StringUtils;
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
 
-    @Autowired
+    @Resource
     UserInfoMapper userInfoMapper;
 
-    @Autowired
+    @Resource
     UserAccountMapper userAccountMapper;
 
-    @Autowired
+    @Resource
     UserLoginRecordMapper userLoginRecordMapper;
 
-    @Autowired
+    @Resource
     RedisTemplate redisTemplate;
 
     private String redisVerificationCodePrefix = "srb:sms:code:";
@@ -75,7 +76,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Override
     public boolean checkVerificationCode(String verificationCode, String mobile) {
         String redisCode = (String) redisTemplate.opsForValue().get( redisVerificationCodePrefix + mobile);
-        Assert.isTrue(verificationCode == redisCode,ResponseEnum.CODE_ERROR);
+        Assert.equals(verificationCode,redisCode,ResponseEnum.CODE_ERROR);
         return true;
     }
 

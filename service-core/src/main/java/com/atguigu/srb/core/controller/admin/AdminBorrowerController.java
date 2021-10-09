@@ -48,8 +48,8 @@ public class AdminBorrowerController {
     @GetMapping("/show/{id}")
     public R show(
             @ApiParam(value = "借款人id",required = true)
-            @PathVariable Integer id){
-        BorrowerDetailVO borrowerDetailVO = borrowerService.getBorrowerDetailInfo(id);
+            @PathVariable Long id){
+        BorrowerDetailVO borrowerDetailVO = borrowerService.getBorrowerDetailVOById(id);
         return R.ok().data("borrowerDetailVO",borrowerDetailVO);
     }
 

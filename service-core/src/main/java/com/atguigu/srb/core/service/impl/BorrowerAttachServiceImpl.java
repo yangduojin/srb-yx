@@ -23,7 +23,7 @@ import java.util.List;
 public class BorrowerAttachServiceImpl extends ServiceImpl<BorrowerAttachMapper, BorrowerAttach> implements BorrowerAttachService {
 
     @Override
-    public List<BorrowerAttachVO> selectBorrowerAttachVOList(Integer id) {
+    public List<BorrowerAttachVO> selectBorrowerAttachVOList(Long id) {
 
         QueryWrapper<BorrowerAttach> borrowerAttachQueryWrapper = new QueryWrapper<>();
         borrowerAttachQueryWrapper.eq("borrower_id", id);
