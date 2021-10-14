@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -55,5 +56,13 @@ public class TransFlowServiceImpl extends ServiceImpl<TransFlowMapper, TransFlow
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<TransFlow> transFlowList(Long userId) {
+        QueryWrapper<TransFlow> transFlowQueryWrapper = new QueryWrapper<>();
+        transFlowQueryWrapper.eq("user_id",userId).orderByAsc("id");
+        List<TransFlow> transFlows = baseMapper.selectList(transFlowQueryWrapper);
+        return transFlows;
     }
 }

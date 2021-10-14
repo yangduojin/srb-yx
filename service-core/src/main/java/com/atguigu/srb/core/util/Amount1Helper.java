@@ -74,9 +74,9 @@ public class Amount1Helper {
     }
 
     public static void main(String[] args) {
-        BigDecimal invest = new BigDecimal("500"); // 本金
-        int month = 12;
-        BigDecimal yearRate = new BigDecimal("0.20"); // 年利率
+        BigDecimal invest = new BigDecimal("1500"); // 本金
+        int month = 6;
+        BigDecimal yearRate = new BigDecimal("0.12"); // 年利率
         Map mapInterest = getPerMonthInterest(invest, yearRate, month);
         System.out.println("等额本息---每月还款利息：" + mapInterest);
         Map mapPrincipal = getPerMonthPrincipal(invest, yearRate, month);

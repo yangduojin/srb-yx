@@ -12,5 +12,4 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-09-22
  */
 public interface LendItemMapper extends BaseMapper<LendItem> {
-
 }

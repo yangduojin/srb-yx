@@ -30,6 +30,13 @@ spring:
     sentinel:
       transport:
         dashboard: localhost:8080
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtual-host: /srbhost
+    username: srbuser
+    password: 123
+
 aliyun:
   sms:
     region-id: cn-shenzhen

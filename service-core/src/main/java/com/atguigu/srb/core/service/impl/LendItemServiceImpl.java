@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,9 +39,6 @@ import java.util.Map;
 @Service
 @Slf4j
 public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> implements LendItemService {
-
-    @Resource
-    private UserInfoMapper userInfoMapper;
 
     @Resource
     private TransFlowService transFlowService;
@@ -59,9 +57,6 @@ public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> i
 
     @Resource
     private UserBindService userBindService;
-
-    @Resource
-    private UserBindMapper userBindMapper;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -134,7 +129,7 @@ public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> i
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void notify(Map<String, Object> paramMap) {
+    public void hfbNotify(Map<String, Object> paramMap) {
         log.info("投标：" + JSONObject.toJSONString(paramMap));
 
         String bindCode = (String) paramMap.get("voteBindCode");
@@ -169,6 +164,22 @@ public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> i
                 TransTypeEnum.INVEST_LOCK,
                 "投资者投资冻结资金");
         transFlowService.saveTransFlow(transFlowBO);
+    }
+
+    @Override
+    public List<LendItem> selectByLendId(Long id, Integer status) {
+        QueryWrapper<LendItem> lendItemQueryWrapper = new QueryWrapper<>();
+        lendItemQueryWrapper.eq("lend_id",id)
+                .eq("status",status);
+        List<LendItem> lendItemList = baseMapper.selectList(lendItemQueryWrapper);
+        return lendItemList;
+    }
+
+    @Override
+    public List<LendItem> listByLendId(Long lendId) {
+        QueryWrapper<LendItem> lendItemQueryWrapper = new QueryWrapper<>();
+        lendItemQueryWrapper.eq("Lend_id",lendId);
+        return baseMapper.selectList(lendItemQueryWrapper);
     }
 
     private LendItem getByLendItemNo(String lendItemNo) {

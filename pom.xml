@@ -17,6 +17,7 @@
         <module>service-oss</module>
         <module>JWT</module>
         <module>service-gateway</module>
+        <module>rabbit-mq</module>
     </modules>
     <packaging>pom</packaging>
 

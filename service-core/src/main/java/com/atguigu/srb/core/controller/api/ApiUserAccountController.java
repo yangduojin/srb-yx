@@ -61,14 +61,14 @@ public class ApiUserAccountController {
 
     @ApiOperation("充值")
     @PostMapping("/notify")
-    public String notify(HttpServletRequest request){
+    public String hfbNotify(HttpServletRequest request){
         Map<String, Object> paramMap = RequestHelper.switchMap(request.getParameterMap());
         log.info("用户充值异步回调：" + JSON.toJSONString(paramMap));
 
         if(RequestHelper.isSignEquals(paramMap)){
             if("0001".equals(paramMap.get("resultCode"))){
                 log.info("验签成功，开始充值");
-                userAccountService.notify(paramMap);
+                userAccountService.hfbNotify(paramMap);
                 return "success" ;
             }else {
                 log.info("用户充值异步回调充值失败：" + JSON.toJSONString(paramMap));
@@ -78,6 +78,34 @@ public class ApiUserAccountController {
             log.info("用户充值异步回调签名错误：" + JSON.toJSONString(paramMap));
             return "fail";
         }
+    }
+
+    @ApiOperation("提现")
+    @PostMapping("/auth/commitWithdraw/{fetchAmt}")
+    public R commitWithdraw(@PathVariable BigDecimal fetchAmt,HttpServletRequest request){
+        String token = request.getHeader("token");
+        Long userId = JwtUtils.getUserId(token);
+        String formStr = userAccountService.commitWithdraw(fetchAmt,userId);
+        return R.ok().data("formStr",formStr);
+    }
+
+    @ApiOperation("提现消息回调")
+    @PostMapping("/notifyWithdraw")
+    public String notifyWithdraw(HttpServletRequest request){
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Map<String, Object> paramMap = RequestHelper.switchMap(parameterMap);
+        if(RequestHelper.isSignEquals(paramMap)){
+            if("0001".equals(paramMap.get("resultCode"))){
+               userAccountService.notifyWithdraw(paramMap);
+            }else {
+            log.info("提现异步回调充值失败：" + JSON.toJSONString(paramMap));
+            return "fail";
+            }
+        }else {
+            log.info("提现异步回调签名错误：" + JSON.toJSONString(paramMap));
+            return "fail";
+        }
+        return "success";
     }
 
 }

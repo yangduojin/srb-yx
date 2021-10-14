@@ -16,7 +16,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -82,9 +81,8 @@ public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> i
         return formStr;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public void notify(Map<String, Object> paramMap) {
+    public void hfbNotify(Map<String, Object> paramMap) {
         String bindCode = (String) paramMap.get("bindCode");
         String agentUserId = (String) paramMap.get("agentUserId");
         QueryWrapper<UserBind> queryWrapper = new QueryWrapper<>();
@@ -93,6 +91,7 @@ public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> i
         userBind.setBindCode(bindCode);
         userBind.setStatus(UserBindEnum.BIND_OK.getStatus());
         baseMapper.updateById(userBind);
+
 
         UserInfo userInfo = userInfoMapper.selectById(agentUserId);
         userInfo.setIdCard(userBind.getIdCard());

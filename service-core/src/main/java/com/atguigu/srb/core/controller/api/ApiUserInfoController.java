@@ -7,6 +7,7 @@ import com.atguigu.srb.common.result.R;
 import com.atguigu.srb.common.result.ResponseEnum;
 import com.atguigu.srb.common.util.RegexValidateUtils;
 import com.atguigu.srb.core.pojo.entity.vo.LoginVO;
+import com.atguigu.srb.core.pojo.entity.vo.UserIndexVO;
 import com.atguigu.srb.core.pojo.entity.vo.UserInfoVO;
 import com.atguigu.srb.core.pojo.entity.vo.UserRegisterInfoVO;
 import com.atguigu.srb.core.service.UserInfoService;
@@ -95,6 +96,16 @@ public class ApiUserInfoController {
         Assert.notEmpty(mobile,ResponseEnum.MOBILE_NULL_ERROR);
         Assert.isTrue(mobileFormat,ResponseEnum.MOBILE_ERROR);
         return userInfoService.checkMobile(mobile);
+    }
+
+    @ApiOperation("获取用户信息")
+    @GetMapping("/auth/getIndexUserInfo")
+    public R getIndexUserInfo(HttpServletRequest request){
+        String token = request.getHeader("token");
+        Long userId = JwtUtils.getUserId(token);
+
+        UserIndexVO userIndexVO = userInfoService.getIndexUserInfo(userId);
+        return R.ok().data("userIndexVO",userIndexVO);
     }
 }
 

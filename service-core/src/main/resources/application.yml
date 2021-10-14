@@ -31,11 +31,17 @@ spring:
       transport:
         dashboard: localhost:8080
       enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtual-host: /srbhost
+    username: srbuser
+    password: 123
 mybatis-plus:
   mapper-locations: classpath:com/atguigu/srb/core/mapper/xml/*.xml
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-#logging:
-    ##  level:
-    ##    root: debug
+logging:
+  root:
+    level: info

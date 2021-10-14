@@ -1,8 +1,11 @@
 package com.atguigu.srb.core;
 
 
+import com.atguigu.srb.base.dto.SmsDTO;
 import com.atguigu.srb.core.mapper.DictMapper;
 import com.atguigu.srb.core.pojo.entity.Dict;
+import com.atguigu.srb.rabbitutil.constant.MQConst;
+import com.atguigu.srb.rabbitutil.service.MQService;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -18,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
@@ -29,6 +33,9 @@ public class CoreTest {
 
     @Autowired
     private DictMapper dictMapper;
+
+    @Resource
+    private MQService mqService;
     
     @Test
     public void testAutoGenerator(){
@@ -129,5 +136,7 @@ public class CoreTest {
         Dict dict = (Dict) redisTemplate.opsForValue().get("dict");
         System.out.println(dict);
     }
+
+
 
 }

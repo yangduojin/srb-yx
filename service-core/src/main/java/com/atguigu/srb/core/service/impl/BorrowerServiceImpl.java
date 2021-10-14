@@ -96,13 +96,11 @@ public class BorrowerServiceImpl extends ServiceImpl<BorrowerMapper, Borrower> i
 
     @Override
     public Page<Borrower> borrowerList(Page<Borrower> pageModel, String keyword) {
-        if(StringUtils.isEmpty(keyword)){
-            return baseMapper.selectPage(pageModel,null);
-        }
+
         QueryWrapper<Borrower> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("name",keyword)
-                .or().like("mobile",keyword)
-                .or().like("id_card",keyword)
+        queryWrapper.like(!StringUtils.isEmpty(keyword),"name",keyword)
+                .or().like(!StringUtils.isEmpty(keyword),"mobile",keyword)
+                .or().like(!StringUtils.isEmpty(keyword),"id_card",keyword)
                 .orderByDesc("id");
         return baseMapper.selectPage(pageModel, queryWrapper);
     }

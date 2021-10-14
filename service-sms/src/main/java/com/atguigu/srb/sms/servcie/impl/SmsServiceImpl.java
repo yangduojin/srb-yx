@@ -20,6 +20,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -30,7 +31,7 @@ public class SmsServiceImpl implements SmsService {
     private RedisTemplate redisTemplate;
 
     @Override
-    public void send(String mobile, String templateCode, HashMap<String, Object> param) {
+    public void send(String mobile, String templateCode, Map<String, Object> param) {
 
         DefaultProfile profile = DefaultProfile.getProfile(
                 SmsProperties.REGION_Id,
@@ -80,5 +81,16 @@ public class SmsServiceImpl implements SmsService {
             throw new BusinessException(ResponseEnum.ALIYUN_SMS_ERROR , e);
         }
 
+    }
+
+    @Override
+    public void sendToRedis(String mobile, String templateCode, Map<String, Object> param) {
+        log.info("开始存入redis中：");
+        try {
+            redisTemplate.opsForValue().set(templateCode + ":" + mobile,param.toString(),60*24,TimeUnit.MINUTES);
+        } catch (Exception e) {
+            log.error("存入redis时发生了一场，报错如下：" + e.getMessage());
+        }
+        log.info("已经成功存入redis：");
     }
 }

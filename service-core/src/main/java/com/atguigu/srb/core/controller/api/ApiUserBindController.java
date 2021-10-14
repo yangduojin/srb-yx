@@ -13,7 +13,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -51,14 +54,16 @@ public class ApiUserBindController {
 
     @ApiOperation("账户绑定异步回调")
     @PostMapping("/notify")
-    public String notify(HttpServletRequest request){
+    public String hfbNotify(HttpServletRequest request){
         Map<String, Object> paramMap = RequestHelper.switchMap(request.getParameterMap());
         if (!RequestHelper.isSignEquals(paramMap)) {
             log.error("用户账号绑定异步回调签名验证错误： " + JSON.toJSONString(paramMap));
             return "fail";
         }
         log.info("验签成功，开始账户绑定");
-        userBindService.notify(paramMap);
+
+//        String userBindCode = userBindService.getBindCodeByUserId((Long) paramMap.get("userId"));
+            userBindService.hfbNotify(paramMap);
         return  "success";
     }
 }

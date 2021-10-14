@@ -12,6 +12,7 @@ import com.atguigu.srb.core.pojo.entity.UserInfo;
 import com.atguigu.srb.core.pojo.entity.UserLoginRecord;
 import com.atguigu.srb.core.pojo.entity.query.UserInfoQuery;
 import com.atguigu.srb.core.pojo.entity.vo.LoginVO;
+import com.atguigu.srb.core.pojo.entity.vo.UserIndexVO;
 import com.atguigu.srb.core.pojo.entity.vo.UserInfoVO;
 import com.atguigu.srb.core.pojo.entity.vo.UserRegisterInfoVO;
 import com.atguigu.srb.core.service.UserInfoService;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -153,6 +155,41 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         userInfoQueryWrapper.eq("mobile",mobile);
         Integer count = baseMapper.selectCount(userInfoQueryWrapper);
         return count > 0 ? true : false;
+    }
+
+    @Override
+    public UserIndexVO getIndexUserInfo(Long userId) {
+        UserInfo userInfo = baseMapper.selectById(userId);
+        QueryWrapper<UserAccount> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",userId);
+        UserAccount userAccount = userAccountMapper.selectOne(queryWrapper);
+
+        QueryWrapper<UserLoginRecord> userLoginRecordQueryWrapper = new QueryWrapper<>();
+        userLoginRecordQueryWrapper.eq("user_id",userId)
+                .orderByDesc("create_time")
+                .last("limit 1");
+        List<UserLoginRecord> userLoginRecords = userLoginRecordMapper.selectList(userLoginRecordQueryWrapper);
+
+
+        UserIndexVO userIndexVO = new UserIndexVO();
+        userIndexVO.setUserId(userId);
+        userIndexVO.setName(userInfo.getName());
+        userIndexVO.setNickName(userInfo.getNickName());
+        userIndexVO.setBindStatus(userInfo.getBindStatus());
+        userIndexVO.setUserType(userInfo.getUserType());
+        userIndexVO.setHeadImg(userInfo.getHeadImg());
+        userIndexVO.setAmount(userAccount.getAmount());
+        userIndexVO.setFreezeAmount(userAccount.getFreezeAmount());
+        userIndexVO.setLastLoginTime(userLoginRecords.get(0).getCreateTime());
+        return userIndexVO;
+    }
+
+    @Override
+    public String getMobileByBindCode(String bindCode) {
+        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<>();
+        userInfoQueryWrapper.eq("bind_code", bindCode);
+        UserInfo userInfo = baseMapper.selectOne(userInfoQueryWrapper);
+        return userInfo.getMobile();
     }
 
 

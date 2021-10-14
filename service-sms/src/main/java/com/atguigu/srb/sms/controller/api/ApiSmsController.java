@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -51,7 +52,7 @@ public class ApiSmsController {
         Assert.isTrue(exist == false ,ResponseEnum.MOBILE_EXIST_ERROR);
 
         String code = RandomUtils.getFourBitRandom();
-        HashMap<String, Object> param = new HashMap<>();
+        Map<String, Object> param = new HashMap<>();
         param.put("code",code);
 //        smsService.send(mobile, SmsProperties.TEMPLATE_CODE,param);
         redisTemplate.opsForValue().set("srb:sms:code:" + mobile , code,60*24, TimeUnit.MINUTES);

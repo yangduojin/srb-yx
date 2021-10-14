@@ -9,6 +9,7 @@
         where user_id = (
         select id from user_info where bind_code = #{bindCode}
         )
+
     </update>
 
 </mapper>

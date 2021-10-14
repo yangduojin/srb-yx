@@ -8,6 +8,10 @@ spring:
     name: service-gateway # 服务名
   cloud:
     nacos:
+      config:
+        server-addr: 120.0.0.1:8848
+        file-extension: yaml
+        prefix: nacos
       discovery:
         server-addr: localhost:8848 # nacos服务地址
     gateway:

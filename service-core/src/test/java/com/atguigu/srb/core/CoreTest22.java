@@ -1,13 +1,16 @@
 package com.atguigu.srb.core;
 
 
+import com.atguigu.srb.core.pojo.entity.UserInfo;
+import com.atguigu.srb.core.pojo.entity.vo.UserInfoVO;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = MyApplication.class)
 public class CoreTest22 {
 
 
@@ -55,4 +58,22 @@ public class CoreTest22 {
             }
         return true;
     }
+
+    @Test
+    public void testCopy(){
+        UserInfoVO userInfoVO = new UserInfoVO();
+        userInfoVO.setUserType(1);
+        userInfoVO.setNickName("yang");
+        userInfoVO.setName("xin");
+        userInfoVO.setMobile("110");
+        userInfoVO.setHeadImg(null);
+
+
+        UserInfo userInfo = null;
+
+        BeanUtils.copyProperties(userInfoVO,userInfo);
+
+        System.out.println(userInfo);
+    }
+
 }
